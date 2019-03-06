@@ -19,6 +19,7 @@ export default class JsxParser extends Component {
     blacklistedTags:      ['script'],
     components:           [],
     componentsOnly:       false,
+    textComponent:        React.Fragment,
     jsx:                  '',
     onError:              () => { },
     showWarnings:         false,
@@ -47,7 +48,11 @@ export default class JsxParser extends Component {
       case 'JSXElement':
         return this.parseElement(expression)
       case 'JSXText':
-        return (expression.value || '')
+        return (
+          <this.props.textComponent>
+            {expression.value || ''}
+          </this.props.textComponent>
+        )
       case 'JSXAttribute':
         if (expression.value === null) return true
         return this.parseExpression(expression.value)
@@ -205,6 +210,7 @@ if (process.env.NODE_ENV !== 'production') {
     blacklistedTags: PropTypes.arrayOf(PropTypes.string),
     components:      PropTypes.shape({}),
     componentsOnly:  PropTypes.bool,
+    textComponent:   PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     jsx:             PropTypes.string,
     onError:         PropTypes.func,
     showWarnings:    PropTypes.bool,
