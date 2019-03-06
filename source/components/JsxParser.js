@@ -49,7 +49,7 @@ export default class JsxParser extends Component {
         return this.parseElement(expression)
       case 'JSXText':
         return (
-          <this.props.textComponent>
+          <this.props.textComponent key={randomHash()}>
             {expression.value || ''}
           </this.props.textComponent>
         )
